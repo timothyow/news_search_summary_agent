@@ -10,7 +10,7 @@ Original file is located at
 # streamlit UI
 
 import streamlit as st
-from agent_runner import run_news_agent
+from news_search_n_summary_agent import run_news_agent
 
 st.set_page_config(page_title="Dairy News Agent", layout="wide")
 st.title("📰 Dairy News Summarizer (SEA)")
