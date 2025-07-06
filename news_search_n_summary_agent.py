@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1dyvN2VT4s9tPSvmCZ5C09d6-Pwf5Mx8E
 """
 
-!pip install langgraph langchain-openai tavily-python python-docx python-dateutil langchain_community
+#!pip install langgraph langchain-openai tavily-python python-docx python-dateutil langchain_community
 
 # news_search_n_summary_agent.py
 
