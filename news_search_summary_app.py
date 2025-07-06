@@ -17,7 +17,7 @@ import os
 
 
 st.set_page_config(page_title="Dairy News Agent", layout="wide")
-st.title("📰 Dairy-News Search and Summarizer Agent (BG Asia)")
+st.title("Dairy-News Search and Summarizer Agent (BG Asia)")
 
 st.markdown("Searches dairy-related news for **Thailand, Indonesia, Malaysia, Philippines, Vietnam**, then summarizes and exports Word documents.")
 
@@ -30,7 +30,7 @@ if start_date and end_date and start_date <= end_date:
         with st.spinner("Running LangGraph agent... please wait."):
             results = run_news_agent(str(start_date), str(end_date))
 
-        st.success("✅ All summaries generated!")
+        st.success("All summaries generated!")
 
         for result in results:
             st.subheader(f"{result['country']}")
@@ -43,21 +43,22 @@ if start_date and end_date and start_date <= end_date:
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                     key=f"download_{result['country']}" 
                 )
+        # --- Add ZIP download for all files ---
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+            for result in results:
+                zipf.write(result["file_path"], arcname=os.path.basename(result["file_path"]))
+        zip_buffer.seek(0)
+        
+        st.download_button(
+            label="📦 Download All Summaries as ZIP",
+            data=zip_buffer,
+            file_name="dairy_news_summaries.zip",
+            mime="application/zip",
+            key="download_all_zip"
+        )
+        
 
 else:
     st.info("Please select a valid date range.")
 
-# --- Add ZIP download for all files ---
-zip_buffer = io.BytesIO()
-with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-    for result in results:
-        zipf.write(result["file_path"], arcname=os.path.basename(result["file_path"]))
-zip_buffer.seek(0)
-
-st.download_button(
-    label="📦 Download All Summaries as ZIP",
-    data=zip_buffer,
-    file_name="dairy_news_summaries.zip",
-    mime="application/zip",
-    key="download_all_zip"
-)
