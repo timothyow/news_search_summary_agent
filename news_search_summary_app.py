@@ -14,7 +14,7 @@ from news_search_n_summary_agent import run_news_agent
 import zipfile
 import io
 import os
-
+import uuid
 
 st.set_page_config(page_title="Dairy News Agent", layout="wide")
 st.title("Dairy-News Search and Summarizer Agent (BG Asia)")
@@ -41,7 +41,8 @@ if start_date and end_date and start_date <= end_date:
                     data=f,
                     file_name=result["file_path"].split("/")[-1],
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    key=f"download_{result['country']}" 
+                    key=f"download_{result['country']}_{uuid.uuid4()}"
+                    
                 )
         # --- Add ZIP download for all files ---
         zip_buffer = io.BytesIO()
