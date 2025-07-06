@@ -78,7 +78,7 @@ def run_news_agent(start_date: str, end_date: str) -> list[dict]:
 
             prompt = f"""
 
-                You are a BCG analyst. Based on the following articles, ensure the articles are correct to the dairy industry in {country_name} between {DATE_RANGE},
+                You are a BCG analyst. Based on the following articles, ensure the articles are correct to the dairy industry in {country_name} between {date_range},
                 read the articles and summarize into a paragraph of no more than 200 words.
                 After the summary, compile the top 5 article titles and URLs relevant to the summary, do not compile similar articles.
                 Do not repeat similar news articles and do not complie articles from research agency or articles related to Dairy Market Size, Trends and Forecast.
