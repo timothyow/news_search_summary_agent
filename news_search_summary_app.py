@@ -11,6 +11,10 @@ Original file is located at
 
 import streamlit as st
 from news_search_n_summary_agent import run_news_agent
+import zipfile
+import io
+import os
+
 
 st.set_page_config(page_title="Dairy News Agent", layout="wide")
 st.title("📰 Dairy-News Search and Summarizer Agent (BG Asia)")
@@ -37,8 +41,23 @@ if start_date and end_date and start_date <= end_date:
                     data=f,
                     file_name=result["file_path"].split("/")[-1],
                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    key=f"download_{result['country']}"  # 👈 added unique key
+                    key=f"download_{result['country']}" 
                 )
 
 else:
     st.info("Please select a valid date range.")
+
+# --- Add ZIP download for all files ---
+zip_buffer = io.BytesIO()
+with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+    for result in results:
+        zipf.write(result["file_path"], arcname=os.path.basename(result["file_path"]))
+zip_buffer.seek(0)
+
+st.download_button(
+    label="📦 Download All Summaries as ZIP",
+    data=zip_buffer,
+    file_name="dairy_news_summaries.zip",
+    mime="application/zip",
+    key="download_all_zip"
+)
