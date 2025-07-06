@@ -13,7 +13,7 @@ import streamlit as st
 from news_search_n_summary_agent import run_news_agent
 
 st.set_page_config(page_title="Dairy News Agent", layout="wide")
-st.title("📰 Dairy News Summarizer (SEA)")
+st.title("📰 Dairy-News Search and Summarizer Agent (BG Asia)")
 
 st.markdown("Searches dairy-related news for **Thailand, Indonesia, Malaysia, Philippines, Vietnam**, then summarizes and exports Word documents.")
 
@@ -36,7 +36,9 @@ if start_date and end_date and start_date <= end_date:
                     label=f"📥 Download {result['country']} Summary",
                     data=f,
                     file_name=result["file_path"].split("/")[-1],
-                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    key=f"download_{result['country']}"  # 👈 added unique key
                 )
+
 else:
     st.info("Please select a valid date range.")
